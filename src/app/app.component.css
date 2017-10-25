@@ -1,0 +1,42 @@
+button, .button{
+  margin: 1em;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+  transition: all .3s ease;
+  display: inline-block;
+  padding: 0 .5rem;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 14px;
+  width: 300px;
+  height: 2.75rem;
+  line-height: 2.75rem;
+  border: 0;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 1rem 1rem 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  background-color: #A5A5A5;
+}
+
+.container{
+  text-align: center;
+}
+
+.login{
+  border: 1px solid #ECEDED;
+  padding: 1em;
+}
+
+h1{
+  color: #B4B4B4;
+}
+
+p{
+  color: #B4B4B4;
+}

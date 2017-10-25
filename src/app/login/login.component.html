@@ -1,6 +1,16 @@
-<div class="login">
-	<form name="login">
-		<button type="button" (click)="this.auth.login()">Login</button>
-		<p>Don't have a Login? <a (click)="createAnAccount()">Create an Account</a></p>
-	</form>
+<div class="container">
+  <div *ngIf="!this.auth.authenticated()">
+    <h1>Login</h1>
+    <div class="login">
+      <button class="login-button" type="button" (click)="this.auth.login()">Login</button>
+      <p>Don't have a Login? <a (click)="createAnAccount()">Create an Account</a></p>
+    </div>
+  </div>
+  <div *ngIf="this.auth.authenticated()" class="login">
+    <h1>Welcome!</h1>
+    <div>
+      <p>You are logged in as {{ user.email }}</p>
+      <a class="button" href="/checkout">Continue to Checkout</a>
+    </div>
+  </div>
 </div>

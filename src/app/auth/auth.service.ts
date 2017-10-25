@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/filter';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -7,7 +6,6 @@ import { RequestOptions, Http, Headers } from '@angular/http';
 
 import { environment } from '../../environments/environment';
 
-import * as auth0 from 'auth0-js';
 import Auth0Lock from 'auth0-lock';
 import { tokenNotExpired } from 'angular2-jwt';
 

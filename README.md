@@ -39,3 +39,12 @@ ng build --prod --env=prod
 This will compile the app into `dist/`
 Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
 Copy `dist/index.html` into the appropriate template file of the airship project.
+
+```
+<base href="/">
+<app-root></app-root>
+<script src="/assets/scripts/login/inline.js"></script>
+<script src="/assets/scripts/login/polyfills.js"></script>
+<script src="/assets/scripts/login/vendor.js"></script>
+<script src="/assets/scripts/login/main.js"></script>
+```

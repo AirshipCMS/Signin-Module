@@ -1,3 +1,6 @@
-<p>
-  login works!
-</p>
+<div class="login">
+	<form name="login">
+		<button type="button" (click)="this.auth.login()">Login</button>
+		<p>Don't have a Login? <a (click)="createAnAccount()">Create an Account</a></p>
+	</form>
+</div>

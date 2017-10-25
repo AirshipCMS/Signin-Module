@@ -1,28 +1,41 @@
-# LoginModule
+# Login-Module
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.0.
+## Development
 
-## Development server
+install dependencies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+npm i
+```
 
-## Code scaffolding
+configuration
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts`
+copy `src/environments/environment.ts` to `src/environments/environment.prod.ts`
+and make any necessary changes
 
-## Build
+`domain` should be the airship site this module will sit on. `domain.airships-alpha.io`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+start dev server
 
-## Running unit tests
+```
+ng serve --env=alpha --port=9001
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Creating Builds
 
-## Running end-to-end tests
+for alpha:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+```
+ng build --prod --env=alpha
+```
 
-## Further help
+for production:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+ng build --prod --env=prod
+```
+
+This will compile the app into `dist/`
+Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
+Copy `dist/index.html` into the appropriate template file of the airship project.

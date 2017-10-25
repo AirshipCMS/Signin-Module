@@ -7,7 +7,7 @@ import  { appRoutingProviders, routing } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
-import { AuthService } from './auth';
+import { AuthService, CanActivateViaAuthGuard } from './auth';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { AuthService } from './auth';
     HttpModule,
     routing
   ],
-  providers: [appRoutingProviders, AuthService],
+  providers: [appRoutingProviders, AuthService, CanActivateViaAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

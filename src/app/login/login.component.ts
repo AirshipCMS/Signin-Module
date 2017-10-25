@@ -10,27 +10,26 @@ import { AuthService } from '../auth';
 })
 export class LoginComponent implements OnInit {
   verified : boolean;
-  user : any;
 
-  constructor(private auth: AuthService, private router: Router) {
-    this.user = JSON.parse(localStorage.getItem('user'));
+  constructor(public auth: AuthService, private router: Router) {
+    this.auth.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() {
     this.getAccessToken();
-    if(!this.auth.authenticated())  {
+    if(this.auth.authenticated() && this.auth.getProfile().email_verified) {
+      this.getUser();
+    } else {
       this.auth.status.subscribe(status => {
         status ? this.verified = this.auth.getProfile().email_verified : null;
-        this.verified = this.auth.getProfile().email_verified;
+        this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
         if(!this.verified) {
-          this.router.navigate(['/login#confirm-account']);
+          this.router.navigate(['/login/confirm-account']);
         }
-        else if((this.user === null || this.user === undefined) && this.verified) {
+        else if((this.auth.user === null || this.auth.user === undefined) && this.verified) {
           this.getUser();
         }
       });
-    } else {
-      this.getUser();
     }
   }
 
@@ -48,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.auth.getAirshipUser()
       .then(user => {
         localStorage.setItem('user', JSON.stringify(user));
-        this.user = user;
+        this.auth.user = user;
         this.auth.getAccount()
           .subscribe(
             account => localStorage.setItem('account', JSON.stringify(account)),

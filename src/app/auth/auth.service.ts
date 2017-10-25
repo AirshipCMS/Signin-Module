@@ -12,6 +12,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
   status;
+  user;
   private observer: Observer<boolean>;
   private options = {
     closable: true,
@@ -29,6 +30,8 @@ export class AuthService {
   lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
 
   constructor(private http: Http) {
+    this.user = JSON.parse(localStorage.getItem('user'));
+
     this.status = new Observable(observer =>
       this.observer = observer
     ).share();
@@ -54,14 +57,12 @@ export class AuthService {
   public login() {
     this.options.initialScreen = 'login';
     this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
-    this.changeState(false);
     this.lock.show();
   };
 
   public signUp() {
     this.options.initialScreen = 'signUp';
     this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
-    this.changeState(false);
     this.lock.show();
   }
 

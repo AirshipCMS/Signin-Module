@@ -12,7 +12,7 @@ configuration
 
 copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts`
 copy `src/environments/environment.ts` to `src/environments/environment.prod.ts`
-and make any necessary changes
+and make any necessary changes. set `production` to `true` from `environment.prod.ts`.
 
 `domain` should be the airship site this module will sit on. `domain.airships-alpha.io`
 

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         status ? this.verified = this.auth.getProfile().email_verified : null;
         this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
         if(!this.verified) {
-          this.router.navigate(['/login/confirm-account']);
+          this.router.navigate(['/signin/confirm-account']);
         }
         else if((this.auth.user === null || this.auth.user === undefined) && this.verified) {
           this.getUser();

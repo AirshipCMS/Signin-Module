@@ -35,7 +35,6 @@ for production:
 ```
 ng build --prod --env=prod
 ```
-
 This will compile the app into `dist/`
 Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
 Copy `dist/index.html` into the appropriate template file of the airship project.
@@ -48,3 +47,5 @@ Copy `dist/index.html` into the appropriate template file of the airship project
 <script src="/assets/scripts/login/vendor.js"></script>
 <script src="/assets/scripts/login/main.js"></script>
 ```
+
+this SPA loads on `/signin`

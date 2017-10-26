@@ -13,6 +13,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthService {
   status;
   user;
+  id_token : string = localStorage.getItem('id_token');
   private observer: Observer<boolean>;
   private options = {
     closable: true,
@@ -39,7 +40,7 @@ export class AuthService {
     this.lock.on('authenticated', (authResult) => {
       this.lock.getProfile(localStorage.getItem('id_token'), (error, profile) => {
         if (error) {
-          console.log('no user profile');
+          console.error('no user profile');
         }
         localStorage.setItem('profile', JSON.stringify(profile));
         this.changeState(true);
@@ -83,10 +84,10 @@ export class AuthService {
 
   getAirshipUser() {
     let headers = new Headers({
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token')
+      'Authorization': `Bearer ${this.id_token}`
     });
     let options = new RequestOptions({ headers });
-    return this.http.get(environment.domain + '/api/account/profile', options)
+    return this.http.get(`${environment.domain}/api/account/profile`, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -99,12 +100,12 @@ export class AuthService {
     let options = new RequestOptions({ headers });
     let body = {
       'client_id': environment.auth0ClientID,
-      'redirect_uri': environment.domain + '/api/auth0/',
+      'redirect_uri': `${environment.domain}/api/auth0/`,
       'client_secret': environment.auth0Secret,
       'grant_type': 'authorization_code',
       code
     }
-    return this.http.post('https://' + environment.auth0Domain + '/oauth/token', body, options)
+    return this.http.post(`https://${environment.auth0Domain}/oauth/token`, body, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -112,10 +113,10 @@ export class AuthService {
 
   getAccount() {
     let headers = new Headers({
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token')
+      'Authorization': `Bearer ${this.id_token}`
     });
     let options = new RequestOptions({ headers });
-    return this.http.get(environment.domain + '/api/account', options)
+    return this.http.get(`${environment.domain}/api/account`, options)
       .map(res => res.json())
       .catch(this.handleError);
   }
@@ -125,12 +126,12 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     let options = new RequestOptions({ headers });
-    let url = 'https://' + environment.auth0Domain + '/oauth/token';
+    let url = `https://${environment.auth0Domain}/oauth/token`;
     let body = {
-      "grant_type":"client_credentials",
-      "client_id": environment.auth0ApiClientID,
-      "client_secret": environment.auth0ApiSecret,
-      "audience": "https://" + environment.auth0Domain + "/api/v2/"
+      'grant_type': 'client_credentials',
+      'client_id': environment.auth0ApiClientID,
+      'client_secret': environment.auth0ApiSecret,
+      'audience': `https://${environment.auth0Domain}/api/v2/`
     };
 
     return this.http.post(url, body, options)
@@ -141,7 +142,7 @@ export class AuthService {
 
   public resendVerification(token) {
     let headers = new Headers({
-      'Authorization': 'Bearer ' + token,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
     let options = new RequestOptions({ headers });
@@ -149,7 +150,7 @@ export class AuthService {
       user_id: JSON.parse(localStorage.getItem('profile')).user_id,
 
     };
-    let url = 'https://' + environment.auth0Domain + '/api/v2/jobs/verification-email';
+    let url = `https://${environment.auth0Domain}/api/v2/jobs/verification-email`;
 
     return this.http.post(url, body, options)
       .toPromise()

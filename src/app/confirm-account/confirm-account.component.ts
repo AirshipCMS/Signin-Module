@@ -15,7 +15,7 @@ export class ConfirmAccountComponent implements OnInit {
 
   ngOnInit() {
     this.auth.lock.getProfile(localStorage.getItem('id_token'), (err, profile) => {
-      if (err) { return console.log(err); }
+      if (err) { return console.error(err); }
       localStorage.setItem('profile', JSON.stringify(profile));
       if(profile.email_verified) {
         this.router.navigate(['/signin']);
@@ -29,9 +29,7 @@ export class ConfirmAccountComponent implements OnInit {
         this.auth.resendVerification(res.access_token)
           .then(res => {
             this.confirmationEmailSent = true;
-            setTimeout(() =>{
-              this.confirmationEmailSent = false;
-            },3000);
+            setTimeout(() =>this.confirmationEmailSent = false, 3000);
           }).catch(err => console.error(err));
       }).catch(err => console.error(err));
   }

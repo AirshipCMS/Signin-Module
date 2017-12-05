@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.getAccessToken();
     this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
-    if(!this.verified && this.auth.authenticated) {
+    if(!this.verified && this.auth.authenticated()) {
       this.router.navigate(['/signin/confirm-account']);
     }
     if(this.auth.authenticated() && this.auth.getProfile().email_verified) {

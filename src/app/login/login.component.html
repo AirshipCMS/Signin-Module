@@ -11,6 +11,7 @@
     <div>
       <p>You are logged in as {{ user?.email }}</p>
       <a class="button" href="/checkout">Continue to Checkout</a>
+      <p>Not {{ user?.email }}? <a (click)="auth.logout()">Sign Out</a></p>
     </div>
   </div>
 </div>

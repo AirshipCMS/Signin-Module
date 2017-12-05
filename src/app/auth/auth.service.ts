@@ -79,8 +79,7 @@ export class AuthService {
   };
 
   public logout() {
-    // Remove token from localStorage
-    localStorage.clear();
+    delete localStorage.id_token;
   };
 
   public getProfile() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth';
@@ -10,10 +10,9 @@ import { AuthService } from '../auth';
 })
 export class LoginComponent implements OnInit {
   verified : boolean;
+  user : any;
 
-  constructor(public auth: AuthService, private router: Router) {
-    this.auth.user = JSON.parse(localStorage.getItem('user'));
-  }
+  constructor(public auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.getAccessToken();
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
         if(!this.verified) {
           this.router.navigate(['/signin/confirm-account']);
         }
-        else if((this.auth.user === null || this.auth.user === undefined) && this.verified) {
+        else if((this.user === null || this.user === undefined) && this.verified) {
           this.getUser();
         }
       });
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.auth.getAirshipUser()
       .then(user => {
         localStorage.setItem('user', JSON.stringify(user));
-        this.auth.user = user;
+        this.user = user;
         this.auth.getAccount()
           .subscribe(
             account => localStorage.setItem('account', JSON.stringify(account)),
@@ -64,7 +63,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('code', code);
       this.auth.getAccessToken(code)
         .then(res => {
-          localStorage.setItem('id_token', res.id_token);
+          this.auth.saveToken(res.id_token);
           this.auth.lock._events.authenticated();
           window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
         }).catch(err => {

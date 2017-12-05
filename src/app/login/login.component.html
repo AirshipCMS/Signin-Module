@@ -2,14 +2,14 @@
   <div *ngIf="!this.auth.authenticated()">
     <h1>Sign In</h1>
     <div class="signin">
-      <button class="signin-button" type="button" (click)="this.auth.signin()">Sign In</button>
+      <button class="signin-button" type="button" (click)="this.auth.login()">Sign In</button>
       <p>Don't have an account? <a (click)="signUp()">Sign Up</a></p>
     </div>
   </div>
   <div *ngIf="this.auth.authenticated()" class="signin">
     <h1>Welcome!</h1>
-    <div>
-      <p>You are logged in as {{ auth.user?.email }}</p>
+    <div *ngIf="user">
+      <p>You are logged in as {{ user?.email }}</p>
       <a class="button" href="/checkout">Continue to Checkout</a>
     </div>
   </div>

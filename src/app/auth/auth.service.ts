@@ -38,7 +38,7 @@ export class AuthService {
     ).share();
 
     this.lock.on('authenticated', (authResult) => {
-      this.lock.getProfile(localStorage.getItem('id_token'), (error, profile) => {
+      this.lock.getProfile(this.id_token, (error, profile) => {
         if (error) {
           console.error('no user profile');
         }
@@ -53,6 +53,11 @@ export class AuthService {
     if (this.observer !== undefined) {
       this.observer.next(newState);
     }
+  }
+
+  saveToken(token: string) {
+    this.id_token = token;
+    localStorage.setItem('id_token', token);
   }
 
   public login() {

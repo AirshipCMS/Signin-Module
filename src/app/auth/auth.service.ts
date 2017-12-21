@@ -78,8 +78,9 @@ export class AuthService {
     return tokenNotExpired('id_token');
   };
 
-  public logout() {
+  public signOut() {
     delete localStorage.id_token;
+    delete localStorage.profile;
   };
 
   public getProfile() {

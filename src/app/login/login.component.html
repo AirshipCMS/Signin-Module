@@ -2,7 +2,7 @@
   <div *ngIf="!this.auth.authenticated()">
     <h1>Sign In</h1>
     <div class="signin">
-      <button class="signin-button" type="button" (click)="this.auth.login()">Sign In</button>
+      <button class="button" type="button" (click)="this.auth.login()">Sign In</button>
       <p>Don't have an account? <a (click)="signUp()">Sign Up</a></p>
     </div>
   </div>

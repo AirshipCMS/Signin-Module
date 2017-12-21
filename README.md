@@ -11,20 +11,34 @@ npm i
 configuration
 
 copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts`
-copy `src/environments/environment.ts` to `src/environments/environment.prod.ts`
-and make any necessary changes. set `production` to `true` from `environment.prod.ts`.
+copy `src/environments/environment.ts` to `src/environments/environment.prod.ts` and make any necessary changes.
 
-`domain` should be the airship site this module will sit on. `domain.airships-alpha.io`
+set `target` in files `proxy.conf.alpha.json`, `proxy.conf.beta.json` and `proxy.conf.prod.json`,
 
 start dev server
 
+Alpha
+
 ```
-ng serve --env=alpha --port=9001
+npm run alpha
+```
+
+Beta
+
+```
+npm run beta
+```
+
+
+Prod
+
+```
+npm run prod
 ```
 
 ## Creating Builds
 
-for alpha:
+for alpha & beta:
 
 ```
 ng build --prod --env=alpha

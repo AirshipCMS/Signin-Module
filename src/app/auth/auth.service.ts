@@ -92,7 +92,7 @@ export class AuthService {
       'Authorization': `Bearer ${this.id_token}`
     });
     let options = new RequestOptions({ headers });
-    return this.http.get(`${environment.domain}/api/account/profile`, options)
+    return this.http.get(`/api/account/profile`, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -121,7 +121,7 @@ export class AuthService {
       'Authorization': `Bearer ${this.id_token}`
     });
     let options = new RequestOptions({ headers });
-    return this.http.get(`${environment.domain}/api/account`, options)
+    return this.http.get(`/api/account`, options)
       .map(res => res.json())
       .catch(this.handleError);
   }

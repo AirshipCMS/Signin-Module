@@ -4,9 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  domain: 'domain.airshipcms.io', //used for auth0 redirect url
   production: false,
-  domain: '',
-  // Auth0
   auth0Domain: '',
   auth0ClientID: '',
   auth0Secret: '',

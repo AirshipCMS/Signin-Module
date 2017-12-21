@@ -38,16 +38,10 @@ npm run prod
 
 ## Creating Builds
 
-for alpha:
+for alpha & beta:
 
 ```
 ng build --prod --env=alpha
-```
-
-for beta:
-
-```
-ng build --prod --env=beta
 ```
 
 for production:

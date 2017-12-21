@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['../app.component.css', './login.component.css']
+  selector: 'app-signin',
+  templateUrl: './signin.component.html'
 })
-export class LoginComponent implements OnInit {
+export class SignInComponent implements OnInit {
   verified : boolean;
   user : any;
 
@@ -36,9 +35,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login() {
+  signIn() {
     localStorage.clear();
-    this.auth.login();
+    this.auth.signIn();
   }
 
   signUp() {

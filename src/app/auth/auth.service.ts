@@ -60,7 +60,7 @@ export class AuthService {
     localStorage.setItem('id_token', token);
   }
 
-  public login() {
+  public signIn() {
     this.options.initialScreen = 'login';
     this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
     this.lock.show();

@@ -5,14 +5,14 @@ import { HttpModule } from '@angular/http';
 import  { appRoutingProviders, routing } from './app.routes';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { SignInComponent } from './signin/signin.component';
 import { ConfirmAccountComponent } from './confirm-account/confirm-account.component';
 import { AuthService, CanActivateViaAuthGuard } from './auth';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    SignInComponent,
     ConfirmAccountComponent
   ],
   imports: [

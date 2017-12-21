@@ -1,4 +1,4 @@
-# Login-Module
+# Sign In-Module
 
 ## Development
 
@@ -42,10 +42,10 @@ Copy `dist/index.html` into the appropriate template file of the airship project
 ```
 <base href="/">
 <app-root></app-root>
-<script src="/assets/scripts/login/inline.js"></script>
-<script src="/assets/scripts/login/polyfills.js"></script>
-<script src="/assets/scripts/login/vendor.js"></script>
-<script src="/assets/scripts/login/main.js"></script>
+<script src="/assets/scripts/signin/inline.js"></script>
+<script src="/assets/scripts/signin/polyfills.js"></script>
+<script src="/assets/scripts/signin/vendor.js"></script>
+<script src="/assets/scripts/signin/main.js"></script>
 ```
 
 this SPA loads on `/signin`

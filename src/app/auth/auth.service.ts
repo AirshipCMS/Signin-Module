@@ -105,7 +105,7 @@ export class AuthService {
     let options = new RequestOptions({ headers });
     let body = {
       'client_id': environment.auth0ClientID,
-      'redirect_uri': `${environment.domain}/api/auth0/`,
+      'redirect_uri': `https://${environment.domain}/api/auth0/`,
       'client_secret': environment.auth0Secret,
       'grant_type': 'authorization_code',
       code

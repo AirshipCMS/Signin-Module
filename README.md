@@ -1,4 +1,4 @@
-# Login-Module
+# Sign In-Module
 
 ## Development
 
@@ -11,20 +11,34 @@ npm i
 configuration
 
 copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts`
-copy `src/environments/environment.ts` to `src/environments/environment.prod.ts`
-and make any necessary changes. set `production` to `true` from `environment.prod.ts`.
+copy `src/environments/environment.ts` to `src/environments/environment.prod.ts` and make any necessary changes.
 
-`domain` should be the airship site this module will sit on. `domain.airships-alpha.io`
+set `target` in files `proxy.conf.alpha.json`, `proxy.conf.beta.json` and `proxy.conf.prod.json`,
 
 start dev server
 
+Alpha
+
 ```
-ng serve --env=alpha --port=9001
+npm run alpha
+```
+
+Beta
+
+```
+npm run beta
+```
+
+
+Prod
+
+```
+npm run prod
 ```
 
 ## Creating Builds
 
-for alpha:
+for alpha & beta:
 
 ```
 ng build --prod --env=alpha
@@ -42,10 +56,10 @@ Copy `dist/index.html` into the appropriate template file of the airship project
 ```
 <base href="/">
 <app-root></app-root>
-<script src="/assets/scripts/login/inline.js"></script>
-<script src="/assets/scripts/login/polyfills.js"></script>
-<script src="/assets/scripts/login/vendor.js"></script>
-<script src="/assets/scripts/login/main.js"></script>
+<script src="/assets/scripts/signin/inline.js"></script>
+<script src="/assets/scripts/signin/polyfills.js"></script>
+<script src="/assets/scripts/signin/vendor.js"></script>
+<script src="/assets/scripts/signin/main.js"></script>
 ```
 
 this SPA loads on `/signin`

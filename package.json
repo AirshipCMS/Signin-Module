@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --env=prod --output-hashing none && node concat",
+    "build-alpha": "ng build --prod --env=alpha --output-hashing none && node concat",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -27,6 +28,7 @@
     "angular2-jwt": "^0.2.3",
     "auth0-js": "^8.10.1",
     "auth0-lock": "^10.23.1",
+    "concat-files": "^0.1.1",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"

@@ -1,21 +1,65 @@
 # Sign In-Module
 
+## Usage
+
+1. Install Dependencies
+
+run `npm install`
+
+2. Configuration
+
+for alpha & beta:
+
+copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts` and make any necessary changes.
+
+for production:
+
+make necessary changes in `src/environments/environment.prod.ts`.
+
+3. Build Application
+
+for alpha & beta:
+
+```
+npm run build-alpha
+```
+
+for production:
+
+```
+npm run build
+```
+This will compile the app into `dist/airship-signin.min.js`.
+
+4. Add Script to Airship Project
+
+In your airship project, add `airship-sigin.min.js` in `compartments/assets/scripts/`.
+
+Add the following to `compartments/templates/signin.html`:
+
+```
+<base href="/">
+<app-root></app-root>
+<script src="/assets/scripts/signin.min.js"></script>
+```
+
+this SPA loads on `/signin`
+
 ## Development
 
-install dependencies
+1. Install Dependencies
 
-```
-npm i
-```
+run `npm install`
 
-configuration
+2. Configuration
 
-copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts`
-copy `src/environments/environment.ts` to `src/environments/environment.prod.ts` and make any necessary changes.
+copy `src/environments/environment.ts` to `src/environments/environment.alpha.ts` and make any necessary changes.
 
-set `target` in files `proxy.conf.alpha.json`, `proxy.conf.beta.json` and `proxy.conf.prod.json`,
+Make any necessary changes in `src/environments/environment.prod.ts`.
 
-start dev server
+set `target` in files `proxy.conf.alpha.json`, `proxy.conf.beta.json` and `proxy.conf.prod.json`.
+
+3. Serve
 
 Alpha
 
@@ -29,37 +73,10 @@ Beta
 npm run beta
 ```
 
-
 Prod
 
 ```
 npm run prod
 ```
 
-## Creating Builds
-
-for alpha & beta:
-
-```
-ng build --prod --env=alpha
-```
-
-for production:
-
-```
-ng build --prod --env=prod
-```
-This will compile the app into `dist/`
-Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
-Copy `dist/index.html` into the appropriate template file of the airship project.
-
-```
-<base href="/">
-<app-root></app-root>
-<script src="/assets/scripts/signin/inline.js"></script>
-<script src="/assets/scripts/signin/polyfills.js"></script>
-<script src="/assets/scripts/signin/vendor.js"></script>
-<script src="/assets/scripts/signin/main.js"></script>
-```
-
-this SPA loads on `/signin`
+navigate to localhost:4200/signin

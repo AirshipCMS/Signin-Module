@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../auth';
 
+declare var window;
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html'
@@ -50,6 +52,9 @@ export class SignInComponent implements OnInit {
       .then(user => {
         localStorage.setItem('user', JSON.stringify(user));
         this.user = user;
+        if(window.airshipToggleStatus) {
+          window.airshipToggleStatus(user.email);
+        }
         this.auth.getAccount()
           .subscribe(
             account => localStorage.setItem('account', JSON.stringify(account)),

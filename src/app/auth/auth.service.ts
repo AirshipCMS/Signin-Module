@@ -9,6 +9,8 @@ import { environment } from '../../environments/environment';
 import Auth0Lock from 'auth0-lock';
 import { tokenNotExpired } from 'angular2-jwt';
 
+declare var window;
+
 @Injectable()
 export class AuthService {
   status;
@@ -81,6 +83,10 @@ export class AuthService {
   public signOut() {
     delete localStorage.id_token;
     delete localStorage.profile;
+    delete localStorage.account;
+    if(window.airshipToggleStatus) {
+      window.airshipToggleStatus();
+    }
   };
 
   public getProfile() {

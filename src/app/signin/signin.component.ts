@@ -42,11 +42,6 @@ export class SignInComponent implements OnInit {
     this.auth.signIn();
   }
 
-  signUp() {
-    localStorage.clear();
-    this.auth.signUp();
-  }
-
   getUser() {
     this.auth.getAirshipUser()
       .then(user => {

@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ConfirmAccountComponent } from './confirm-account';
 import { SignInComponent } from './signin';
+import { SignUpComponent } from './sign-up';
 import { CanActivateViaAuthGuard } from './auth';
 
 const AppRoutes : Routes = [
-  { path: 'signin', component: SignInComponent },
-  { path: 'signin/confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] }
+  { path: '', component: SignInComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] }
 ];
 
 export const appRoutingProviders : any[] = [];

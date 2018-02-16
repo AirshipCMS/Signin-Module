@@ -3,7 +3,7 @@
     <h1>log In</h1>
     <div class="not-signed-in-text">
       <button class="button" type="button" (click)="this.auth.signIn()">Log In</button>
-      <p class="small">Don't have an account? <a (click)="signUp()">Sign Up</a></p>
+      <p class="small">Don't have an account? <a routerLink="/signup">Sign Up</a></p>
       <p class="small"><a href="">Forgot Password?</a></p>
     </div>
   </div>

@@ -8,7 +8,7 @@ import { AnonSignupErrorComponent } from './anon-signup-error';
 import { CanActivateViaAuthGuard } from './auth';
 
 const AppRoutes : Routes = [
-  { path: '', component: SignInComponent },
+  { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] },
   { path: 'error', component: AnonSignupErrorComponent, canActivate: [CanActivateViaAuthGuard] }

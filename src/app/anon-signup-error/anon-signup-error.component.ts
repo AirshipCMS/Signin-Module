@@ -38,7 +38,7 @@ export class AnonSignupErrorComponent implements OnInit {
 
   signOut() {
     this.auth.signOut();
-    this.router.navigate(['/']);
+    this.router.navigate(['/signin']);
   }
 
 }

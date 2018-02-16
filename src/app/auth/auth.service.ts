@@ -20,7 +20,8 @@ export class AuthService {
   private options = {
     closable: true,
     initialScreen: 'login',
-    allowedConnections: ['Username-Password-Authentication'],
+    // allowSignUp: false,
+    allowedConnections: ['Username-Password-Authentication', 'github', 'facebook', 'google-oauth2'],
     auth: {
       redirectUrl: environment.auth0RedurectUri,
       responseType: 'code'

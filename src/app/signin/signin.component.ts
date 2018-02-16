@@ -12,18 +12,30 @@ declare var window;
 export class SignInComponent implements OnInit {
   verified : boolean;
   user : any;
+  loginType : string;
+  profile;
+  loginTypes : Array<any>;
 
-  constructor(public auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {
+    this.loginTypes = [
+      { type: 'Auth0' },
+      { type: 'Facebook' },
+      { type: 'GitHub' },
+      { type: 'Google' }
+    ]
+  }
 
   ngOnInit() {
     this.getAccessToken();
-    this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
+    this.profile = this.auth.getProfile();
+    this.verified = this.profile ? this.profile.email_verified : false;
     if(this.auth.authenticated()) {
       this.getUser();
     } else {
       this.auth.status.subscribe(status => {
-        status ? this.verified = this.auth.getProfile().email_verified : null;
-        this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
+        this.profile = this.auth.getProfile();
+        status ? this.verified = this.profile.email_verified : null;
+        this.verified = this.profile ? this.auth.getProfile().email_verified : false;
         this.getUser();
       });
     }
@@ -45,6 +57,7 @@ export class SignInComponent implements OnInit {
           if(!this.verified) {
             this.router.navigate(['/confirm-account']);
           } else {
+            this.loginType = this.loginTypes.find((item) => item.type.toLowerCase() === this.user.auth0_user.auth0_id.split('|')[0]).type;
             if(window.airshipToggleStatus) {
               window.airshipToggleStatus(email);
             }

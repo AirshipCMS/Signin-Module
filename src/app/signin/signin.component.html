@@ -10,8 +10,8 @@
   <div *ngIf="this.auth.authenticated()" class="signed-in">
     <h1>Welcome Back!</h1>
     <div class="signed-in-text">
-      <p *ngIf="loginType === 'email'">You are logged in as {{ user?.auth0_user.email }}.</p>
-      <p *ngIf="loginType !== 'email'">You are logged in with {{ loginType }} as {{ profile?.nickname }}.</p>
+      <p *ngIf="loginType === 'Auth0'">You are logged in as {{ user?.auth0_user.email }}.</p>
+      <p *ngIf="loginType !== 'Auth0'">You are logged in with {{ loginType }} as {{ profile?.nickname }}.</p>
       <a class="button" href="/checkout">Continue</a>
       <a class="button" href="/admin" *ngIf="user?.scope === 'admin' || user?.scope === 'superadmin'">View Admin Portal</a>
       <p>Not your account? <a (click)="auth.signOut()">Sign Out</a></p>

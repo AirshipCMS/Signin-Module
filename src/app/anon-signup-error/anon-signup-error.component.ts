@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../auth';
 
 @Component({
   selector: 'app-anon-signup-error',
@@ -8,10 +11,34 @@ import { Component, OnInit } from '@angular/core';
 export class AnonSignupErrorComponent implements OnInit {
 
   email: string;
-  constructor() { }
+  anonSignupDisabled: boolean;
+  loginType: string;
+  username: string;
+
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.email = JSON.parse(localStorage.getItem('profile')).email;
+    let profile = JSON.parse(localStorage.getItem('profile'));
+    this.email = profile.email;
+    this.username = profile.nickname;
+    this.loginType = this.auth.getLoginType(profile.user_id);
+    this.getUser();
+  }
+
+  getUser() {
+    this.auth.getAirshipUser()
+      .subscribe(
+        res => {
+
+        }, err => {
+          this.anonSignupDisabled = err['status'] === 401;
+        }
+      );
+  }
+
+  signOut() {
+    this.auth.signOut();
+    this.router.navigate(['/']);
   }
 
 }

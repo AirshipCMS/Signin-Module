@@ -14,15 +14,9 @@ export class SignInComponent implements OnInit {
   user : any;
   loginType : string;
   profile;
-  loginTypes : Array<any>;
 
   constructor(public auth: AuthService, private router: Router) {
-    this.loginTypes = [
-      { type: 'Auth0' },
-      { type: 'Facebook' },
-      { type: 'GitHub' },
-      { type: 'Google' }
-    ]
+    
   }
 
   ngOnInit() {
@@ -57,16 +51,16 @@ export class SignInComponent implements OnInit {
           if(!this.verified) {
             this.router.navigate(['/confirm-account']);
           } else {
-            this.loginType = this.loginTypes.find((item) => item.type.toLowerCase() === this.user.auth0_user.auth0_id.split('|')[0]).type;
+            this.loginType = this.auth.getLoginType(this.user.auth0_user.auth0_id);
+            if(this.loginType !== 'Auth0') {
+              email = this.profile.nickname;
+            }
             if(window.airshipToggleStatus) {
               window.airshipToggleStatus(email);
             }
           }
         }, err => {
-          console.error(err);
-          if(err.status === 401) {
-            this.router.navigate(['/error']);
-          }
+          this.router.navigate(['/error']);
         }
       );
   }

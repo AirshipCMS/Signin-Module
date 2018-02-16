@@ -16,6 +16,7 @@ export class AuthService {
   status;
   user;
   id_token : string = localStorage.getItem('id_token');
+  loginTypes : Array<any>;
   private observer: Observer<boolean>;
   private options = {
     closable: true,
@@ -37,6 +38,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.loginTypes = [
+      { type: 'Auth0' },
+      { type: 'Facebook' },
+      { type: 'GitHub' },
+      { type: 'Google' }
+    ]
 
     this.status = new Observable(observer =>
       this.observer = observer
@@ -63,6 +70,10 @@ export class AuthService {
   saveToken(token: string) {
     this.id_token = token;
     localStorage.setItem('id_token', token);
+  }
+
+  getLoginType(auth0_id: string) {
+    return this.loginTypes.find((item) => item.type.toLowerCase() === auth0_id.split('|')[0]).type;
   }
 
   public signIn() {

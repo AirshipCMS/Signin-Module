@@ -51,9 +51,7 @@ export class SignUpComponent implements OnInit {
           }
         }, err => {
           console.error(err);
-          if(err.status === 401) {
-            this.router.navigate(['/error']);
-          }
+          this.router.navigate(['/error']);
         }
       );
   }

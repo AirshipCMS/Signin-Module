@@ -91,6 +91,8 @@ export class AuthService {
     delete localStorage.id_token;
     delete localStorage.profile;
     delete localStorage.account;
+    delete localStorage.user;
+    delete localStorage.code;
     if(window.airshipToggleStatus) {
       window.airshipToggleStatus();
     }
@@ -141,6 +143,13 @@ export class AuthService {
     };
 
     return this.http.post(url, body, { headers });
+  }
+
+  getAuth0User(email: string, token: string) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`https://${environment.auth0Domain}/api/v2/users?q=email.raw:${encodeURIComponent(email)}`, { headers });
   }
 
   public resendVerification(token) {

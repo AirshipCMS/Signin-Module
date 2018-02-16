@@ -8,12 +8,17 @@ import { AuthService } from '../auth';
   templateUrl: './confirm-account.component.html',
   styleUrls: ['../app.component.css', './confirm-account.component.css']
 })
+
 export class ConfirmAccountComponent implements OnInit {
   confirmationEmailSent : boolean;
 
+  user;
+  processing: boolean;
+  showResendVerification: boolean;
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.user = this.auth.user;
     this.auth.lock.getProfile(localStorage.getItem('id_token'), (err, profile) => {
       if (err) { return console.error(err); }
       localStorage.setItem('profile', JSON.stringify(profile));
@@ -21,6 +26,37 @@ export class ConfirmAccountComponent implements OnInit {
         this.router.navigate(['/']);
       }
     });
+  }
+
+  signOut() {
+    this.auth.signOut();
+    this.router.navigate(['/']);
+  }
+
+  checkStatus() {
+    this.processing = true;
+    this.auth.getToken()
+      .subscribe(
+        res => {
+          this.auth.getAuth0User(this.user.auth0_user.email, res['access_token'])
+            .subscribe(
+              res => {
+                if(res[0].email_verified) {
+                  this.router.navigate(['/']);
+                } else {
+                  this.showResendVerification = true;
+                  this.processing = false;
+                }
+              }, err => {
+                console.error(err);
+                this.processing = false;
+              }
+            );
+        }, err => {
+          console.error(err);
+          this.processing = false;
+        }
+      );
   }
 
   resendConfirmation() {

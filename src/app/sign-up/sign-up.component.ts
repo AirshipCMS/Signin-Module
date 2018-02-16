@@ -41,11 +41,12 @@ export class SignUpComponent implements OnInit {
         user => {
           localStorage.setItem('user', JSON.stringify(user));
           this.user = user;
+          let email = user['auth0_user'].email;
           if(!this.verified) {
             this.router.navigate(['/confirm-account']);
           } else {
             if(window.airshipToggleStatus) {
-              window.airshipToggleStatus(user.email);
+              window.airshipToggleStatus(email);
             }
           }
         }, err => {
@@ -64,7 +65,7 @@ export class SignUpComponent implements OnInit {
       this.auth.getAccessToken(code)
         .subscribe(
           res => {
-            this.auth.saveToken(res.id_token);
+            this.auth.saveToken(res['id_token']);
             this.auth.lock._events.authenticated();
             window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
           }, err => {

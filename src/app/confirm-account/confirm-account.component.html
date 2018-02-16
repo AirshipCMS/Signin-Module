@@ -1,12 +1,14 @@
 <div class="signin-container">
-  <div>
-    <h1>Confirm Your Account</h1>
-    <div class="signin confirm-account">
-      <p>Please check your email to confirm your account.</p>
-      <button class="button" routerLink="/signin">Continue</button>
-      <p class="small" *ngIf="!confirmationEmailSent">Didn't get an email? 
+  <div class="confirm-email">
+    <h1>Confirm Your Email</h1>
+    <div class="confirm-email-text">
+      <p class="small" *ngIf="!showResendVerification">You have signed up with Auth0 as {{ user?.auth0_user.email }}. Check your inbox to confirm your email, then press the button below to continue.</p>
+      <p class="small" *ngIf="showResendVerification">Your email {{ user?.auth0_user.email }} is not yet confirmed. Check your inbox to confirm your email, then press the button below to continue.</p>
+      <button class="button" (click)="checkStatus()">{{ processing ? "checking..." : "I have confirmed my email!" }}</button>
+      <p class="small">Not your account?</p>
+      <a (click)="signOut()">Logout</a>
+      <p class="small" *ngIf="!confirmationEmailSent && showResendVerification">
       	<a (click)="resendConfirmation()">Resend the Confirmation.</a>
-      	<a (click)="auth.signOut()">Sign Out</a>
       </p>
       <p class="small" *ngIf="confirmationEmailSent">Confirmation sent</p>
     </div>

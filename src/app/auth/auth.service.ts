@@ -20,7 +20,9 @@ export class AuthService {
   private options = {
     closable: true,
     initialScreen: 'login',
-    // allowSignUp: false,
+    allowLogin: true,
+    allowForgotPassword: false,
+    allowSignUp: false,
     allowedConnections: ['Username-Password-Authentication', 'github', 'facebook', 'google-oauth2'],
     auth: {
       redirectUrl: environment.auth0RedurectUri,
@@ -65,11 +67,15 @@ export class AuthService {
 
   public signIn() {
     this.options.initialScreen = 'login';
+    this.options.allowLogin = true;
+    this.options.allowSignUp = false;
     this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
     this.lock.show();
   };
 
   public signUp() {
+    this.options.allowSignUp = true;
+    this.options.allowLogin = false;
     this.options.initialScreen = 'signUp';
     this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
     this.lock.show();

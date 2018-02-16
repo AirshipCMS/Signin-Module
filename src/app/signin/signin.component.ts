@@ -18,21 +18,13 @@ export class SignInComponent implements OnInit {
   ngOnInit() {
     this.getAccessToken();
     this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
-    if(!this.verified && this.auth.authenticated()) {
-      this.router.navigate(['/signin/confirm-account']);
-    }
-    if(this.auth.authenticated() && this.auth.getProfile().email_verified) {
+    if(this.auth.authenticated()) {
       this.getUser();
     } else {
       this.auth.status.subscribe(status => {
         status ? this.verified = this.auth.getProfile().email_verified : null;
         this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
-        if(!this.verified) {
-          this.router.navigate(['/signin/confirm-account']);
-        }
-        else if((this.user === null || this.user === undefined) && this.verified) {
-          this.getUser();
-        }
+        this.getUser();
       });
     }
   }
@@ -44,20 +36,25 @@ export class SignInComponent implements OnInit {
 
   getUser() {
     this.auth.getAirshipUser()
-      .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.user = user;
-        if(window.airshipToggleStatus) {
-          window.airshipToggleStatus(user.email);
+      .subscribe(
+        user => {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.user = user;
+          let email = user['auth0_user'].email;
+          if(!this.verified) {
+            this.router.navigate(['/confirm-account']);
+          } else {
+            if(window.airshipToggleStatus) {
+              window.airshipToggleStatus(email);
+            }
+          }
+        }, err => {
+          console.error(err);
+          if(err.status === 401) {
+            this.router.navigate(['/error']);
+          }
         }
-        this.auth.getAccount()
-          .subscribe(
-            account => localStorage.setItem('account', JSON.stringify(account)),
-            error => console.error(error)
-          );
-      }).catch(err => {
-        console.error(err);
-      });
+      );
   }
 
   getAccessToken() {
@@ -65,14 +62,16 @@ export class SignInComponent implements OnInit {
     if(code !== undefined) {
       localStorage.setItem('code', code);
       this.auth.getAccessToken(code)
-        .then(res => {
-          this.auth.saveToken(res.id_token);
-          this.auth.lock._events.authenticated();
-          window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
-        }).catch(err => {
-          console.log(err);
-          window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
-        });
+        .subscribe(
+          res => {
+            this.auth.saveToken(res['id_token']);
+            this.auth.lock._events.authenticated();
+            window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
+          }, err => {
+            console.log(err);
+            window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
+          }
+      );
     }
   }
 

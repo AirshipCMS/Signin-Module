@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { RequestOptions, Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
@@ -35,7 +35,7 @@ export class AuthService {
   };
   lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.user = JSON.parse(localStorage.getItem('user'));
 
     this.status = new Observable(observer =>
@@ -101,21 +101,16 @@ export class AuthService {
   }
 
   getAirshipUser() {
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Authorization': `Bearer ${this.id_token}`
     });
-    let options = new RequestOptions({ headers });
-    return this.http.get(`/api/account/profile`, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.http.get(`/api/account/profile`, { headers });
   }
 
   getAccessToken(code: string) {
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
-    let options = new RequestOptions({ headers });
     let body = {
       'client_id': environment.auth0ClientID,
       'redirect_uri': `https://${environment.domain}/api/auth0/`,
@@ -123,27 +118,20 @@ export class AuthService {
       'grant_type': 'authorization_code',
       code
     }
-    return this.http.post(`https://${environment.auth0Domain}/oauth/token`, body, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.http.post(`https://${environment.auth0Domain}/oauth/token`, body, { headers });
   }
 
   getAccount() {
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Authorization': `Bearer ${this.id_token}`
     });
-    let options = new RequestOptions({ headers });
-    return this.http.get(`/api/account`, options)
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.get(`/api/account`, { headers });
   }
 
   getToken() {
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    let options = new RequestOptions({ headers });
     let url = `https://${environment.auth0Domain}/oauth/token`;
     let body = {
       'grant_type': 'client_credentials',
@@ -152,28 +140,20 @@ export class AuthService {
       'audience': `https://${environment.auth0Domain}/api/v2/`
     };
 
-    return this.http.post(url, body, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.http.post(url, body, { headers });
   }
 
   public resendVerification(token) {
-    let headers = new Headers({
+    let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    let options = new RequestOptions({ headers });
     let body = { 
-      user_id: JSON.parse(localStorage.getItem('profile')).user_id,
-
+      user_id: JSON.parse(localStorage.getItem('profile')).user_id
     };
     let url = `https://${environment.auth0Domain}/api/v2/jobs/verification-email`;
 
-    return this.http.post(url, body, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
+    return this.http.post(url, body, { headers });
   }
 
   handleError(error: Response) {

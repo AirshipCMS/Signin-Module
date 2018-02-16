@@ -10,9 +10,9 @@
   <div *ngIf="this.auth.authenticated()" class="signed-in">
     <h1>Welcome!</h1>
     <div class="signed-in-text">
-      <p>You are logged in as {{ user?.email }}</p>
+      <p>You are logged in as {{ user?.auth0_user.email }}</p>
       <a class="button" href="/checkout">Continue to Checkout</a>
-      <p>Not {{ user?.email }}? <a (click)="auth.signOut()">Sign Out</a></p>
+      <p>Not {{ user?.auth0_user.email }}? <a (click)="auth.signOut()">Sign Out</a></p>
     </div>
   </div>
 </div>

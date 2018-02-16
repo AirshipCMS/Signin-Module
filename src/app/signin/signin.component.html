@@ -11,7 +11,8 @@
     <h1>Welcome!</h1>
     <div class="signed-in-text">
       <p>You are logged in as {{ user?.auth0_user.email }}</p>
-      <a class="button" href="/checkout">Continue to Checkout</a>
+      <a class="button" href="/checkout">Continue</a>
+      <a class="button" href="/admin" *ngIf="user?.scope === 'admin' || user?.scope === 'superadmin'">View Admin Portal</a>
       <p>Not {{ user?.auth0_user.email }}? <a (click)="auth.signOut()">Sign Out</a></p>
     </div>
   </div>

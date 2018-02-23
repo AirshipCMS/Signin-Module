@@ -38,12 +38,10 @@ In your airship project, add `airship-sigin.min.js` in `compartments/assets/scri
 Add the following to `compartments/templates/signin.html`:
 
 ```
-<base href="/">
+<base href="/{{ permalink }}">
 <app-root></app-root>
 <script src="/assets/scripts/signin.min.js"></script>
 ```
-
-this SPA loads on `/signin`
 
 ## Development
 

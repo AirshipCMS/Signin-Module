@@ -156,11 +156,11 @@ export class AuthService {
     return this.http.post(url, body, { headers });
   }
 
-  getAuth0User(email: string, token: string) {
+  getAuth0User(user_id: string, token: string) {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get(`https://${environment.auth0Domain}/api/v2/users?q=email.raw:${encodeURIComponent(email)}`, { headers });
+    return this.http.get(`https://${environment.auth0Domain}/api/v2/users/${user_id}`, { headers });
   }
 
   public resendVerification(token) {

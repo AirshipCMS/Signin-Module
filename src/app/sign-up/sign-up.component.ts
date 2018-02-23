@@ -42,6 +42,7 @@ export class SignUpComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(user));
           this.user = user;
           let email = user['auth0_user'].email;
+          this.auth.user = this.user;
           if(!this.verified) {
             this.router.navigate(['/confirm-account']);
           } else {

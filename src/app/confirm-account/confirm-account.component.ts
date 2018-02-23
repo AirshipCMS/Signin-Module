@@ -23,14 +23,14 @@ export class ConfirmAccountComponent implements OnInit {
       if (err) { return console.error(err); }
       localStorage.setItem('profile', JSON.stringify(profile));
       if(profile.email_verified) {
-        this.router.navigate(['/signin']);
+        this.router.navigate(['/']);
       }
     });
   }
 
   signOut() {
     this.auth.signOut();
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/']);
   }
 
   checkStatus() {
@@ -38,18 +38,23 @@ export class ConfirmAccountComponent implements OnInit {
     this.auth.getToken()
       .subscribe(
         res => {
-          this.auth.getAuth0User(this.user.auth0_user.email, res['access_token'])
+          this.auth.getAuth0User(this.user.auth0_user.auth0_id, res['access_token'])
             .subscribe(
               res => {
-                if(res[0].email_verified) {
-                  this.router.navigate(['/signin']);
+                if(res['email_verified']) {
+                  this.router.navigate(['/']);
                 } else {
-                  this.showResendVerification = true;
-                  this.processing = false;
+                  setTimeout(() => {
+                    this.showResendVerification = true;
+                    this.processing = false;
+                  }, 3000);
                 }
               }, err => {
                 console.error(err);
-                this.processing = false;
+                setTimeout(() => {
+                  this.showResendVerification = true;
+                  this.processing = false;
+                }, 3000);
               }
             );
         }, err => {

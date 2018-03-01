@@ -156,6 +156,22 @@ export class AuthService {
     return this.http.post(url, body, { headers });
   }
 
+  requestPasswordReset(token:string, email:string) {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${token}`
+    });
+
+    let url = `https://${environment.auth0Domain}/dbconnections/change_password`;
+    let body = {
+      email,
+      client_id: environment.auth0ApiClientID,
+      connection: 'Username-Password-Authentication'
+    }
+
+    return this.http.post(url, body, { headers });
+  }
+
   getAuth0User(user_id: string, token: string) {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

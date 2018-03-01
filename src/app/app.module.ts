@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import  { appRoutingProviders, routing } from './app.routes';
 
@@ -10,6 +11,7 @@ import { ConfirmAccountComponent } from './confirm-account/confirm-account.compo
 import { AuthService, CanActivateViaAuthGuard } from './auth';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AnonSignupErrorComponent } from './anon-signup-error/anon-signup-error.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import { AnonSignupErrorComponent } from './anon-signup-error/anon-signup-error.
     SignInComponent,
     ConfirmAccountComponent,
     SignUpComponent,
-    AnonSignupErrorComponent
+    AnonSignupErrorComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    routing
+    routing,
+    ReactiveFormsModule
   ],
   providers: [appRoutingProviders, AuthService, CanActivateViaAuthGuard],
   bootstrap: [AppComponent]

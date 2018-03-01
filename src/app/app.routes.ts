@@ -6,12 +6,14 @@ import { SignInComponent } from './signin';
 import { SignUpComponent } from './sign-up';
 import { AnonSignupErrorComponent } from './anon-signup-error';
 import { CanActivateViaAuthGuard } from './auth';
+import { ForgotPasswordComponent } from './forgot-password';
 
 const AppRoutes : Routes = [
   { path: '', component: SignInComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] },
-  { path: 'error', component: AnonSignupErrorComponent, canActivate: [CanActivateViaAuthGuard] }
+  { path: 'error', component: AnonSignupErrorComponent, canActivate: [CanActivateViaAuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent }
 ];
 
 export const appRoutingProviders : any[] = [];

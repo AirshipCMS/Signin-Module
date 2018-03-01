@@ -1,6 +1,6 @@
 <div class="signin-container">
   <div *ngIf="!this.auth.authenticated()" class="not-signed-in">
-    <h1>log In</h1>
+    <h1>Log In</h1>
     <div class="not-signed-in-text">
       <button class="button" type="button" (click)="this.auth.signIn()">Log In</button>
       <p class="small">Don't have an account? <a routerLink="/signup">Sign Up</a></p>
@@ -14,7 +14,7 @@
       <p *ngIf="loginType !== 'Auth0'">You are logged in with {{ loginType }} as {{ profile?.nickname }}.</p>
       <a class="button" href="/">Continue</a>
       <a class="button" href="/admin" *ngIf="user?.scope === 'admin' || user?.scope === 'superadmin'">View Admin Portal</a>
-      <p>Not your account? <a (click)="auth.signOut()">Sign Out</a></p>
+      <p class="small">Not your account? <a (click)="auth.signOut()">Sign Out</a></p>
     </div>
   </div>
 </div>

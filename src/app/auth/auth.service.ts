@@ -14,6 +14,7 @@ export class AuthService {
   status;
   user;
   id_token : string = localStorage.getItem('id_token');
+  access_token : string = localStorage.getItem('access_token');
   private observer: Observer<boolean>;
   private options = {
     closable: true,
@@ -38,7 +39,7 @@ export class AuthService {
     ).share();
 
     this.lock.on('authenticated', (authResult) => {
-      this.lock.getProfile(localStorage.getItem('id_token'), (error, profile) => {
+      this.lock.getProfile(localStorage.getItem('access_token'), (error, profile) => {
         if (error) {
           console.error('no user profile');
         }

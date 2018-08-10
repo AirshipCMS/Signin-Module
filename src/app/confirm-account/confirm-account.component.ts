@@ -14,7 +14,7 @@ export class ConfirmAccountComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.auth.lock.getProfile(localStorage.getItem('id_token'), (err, profile) => {
+    this.auth.lock.getProfile(localStorage.getItem('access_token'), (err, profile) => {
       if (err) { return console.error(err); }
       localStorage.setItem('profile', JSON.stringify(profile));
       if(profile.email_verified) {

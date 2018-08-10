@@ -61,10 +61,14 @@ export class LoginComponent implements OnInit {
   getAccessToken() {
     let code = location.search.split('code=')[1];
     if(code !== undefined) {
+      if(code.includes('state')) {
+        code = code.split('&state')[0];
+      }
       localStorage.setItem('code', code);
       this.auth.getAccessToken(code)
         .then(res => {
           localStorage.setItem('id_token', res.id_token);
+          localStorage.setItem('access_token', res.access_token);
           this.auth.lock._events.authenticated();
           window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
         }).catch(err => {

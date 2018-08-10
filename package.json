@@ -8,7 +8,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "alpha": "ng serve --proxy-config proxy.conf.alpha.json --env=alpha",
+    "beta": "ng serve --proxy-config proxy.conf.beta.json --env=beta",
+    "prod": "ng serve --proxy-config proxy.conf.prod.json --env=prod"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +26,7 @@
     "@angular/router": "^4.2.4",
     "angular2-jwt": "^0.2.3",
     "auth0-js": "^8.10.1",
-    "auth0-lock": "^10.23.1",
+    "auth0-lock": "^11.8.1",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"

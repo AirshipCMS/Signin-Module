@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://endtoend.airshipcms-alpha.io",
+    "secure": true
+  }
+}

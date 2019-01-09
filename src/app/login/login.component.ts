@@ -9,7 +9,8 @@ import { AuthService } from '../auth';
   styleUrls: ['../app.component.css', './login.component.css']
 })
 export class LoginComponent implements OnInit {
-  verified : boolean;
+  verified: boolean;
+  noAccess: boolean;
 
   constructor(public auth: AuthService, private router: Router) {
     this.auth.user = JSON.parse(localStorage.getItem('user'));
@@ -17,16 +18,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.getAccessToken();
-    if(this.auth.authenticated() && this.auth.getProfile().email_verified) {
+    if (this.auth.authenticated() && this.auth.getProfile().email_verified) {
       this.getUser();
     } else {
       this.auth.status.subscribe(status => {
         status ? this.verified = this.auth.getProfile().email_verified : null;
         this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
-        if(!this.verified) {
-          this.router.navigate(['/signin/confirm-account']);
+        if (!this.verified) {
+          this.router.navigate(['/confirm-account']);
         }
-        else if((this.auth.user === null || this.auth.user === undefined) && this.verified) {
+        else if ((this.auth.user === null || this.auth.user === undefined) && this.verified) {
           this.getUser();
         }
       });
@@ -46,13 +47,18 @@ export class LoginComponent implements OnInit {
   getUser() {
     this.auth.getAirshipUser()
       .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.auth.user = user;
-        this.auth.getAccount()
-          .subscribe(
-            account => localStorage.setItem('account', JSON.stringify(account)),
-            error => console.error(error)
-          );
+        console.log(user.error.status)
+        if (user.error.status === 403 || user.error.status === 401) {
+          this.noAccess = true;
+        } else {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.auth.user = user;
+          this.auth.getAccount()
+            .subscribe(
+              account => localStorage.setItem('account', JSON.stringify(account)),
+              error => console.error(error)
+            );
+        }
       }).catch(err => {
         console.error(err);
       });
@@ -60,8 +66,8 @@ export class LoginComponent implements OnInit {
 
   getAccessToken() {
     let code = location.search.split('code=')[1];
-    if(code !== undefined) {
-      if(code.includes('state')) {
+    if (code !== undefined) {
+      if (code.includes('state')) {
         code = code.split('&state')[0];
       }
       localStorage.setItem('code', code);

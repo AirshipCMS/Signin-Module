@@ -7,10 +7,15 @@
     </div>
   </div>
   <div *ngIf="this.auth.authenticated()" class="login">
-    <h1>Welcome!</h1>
-    <div>
-      <p>You are logged in as {{ auth.user?.email }}</p>
+    <div *ngIf="!this.noAccess">
+      <h1>Welcome</h1>
+      <p>You are logged in as {{ auth.user?.auth0_user?.email }}</p>
       <a class="button" href="/checkout">Continue to Checkout</a>
+    </div>
+    <div class="noaccess" *ngIf="this.noAccess">
+      <h1>No Access</h1>
+      <p>You have successfully logged in with Auth0, though you do not have access to this specific website. Please
+        contact the website administrator to grant you access.</p>
     </div>
   </div>
 </div>

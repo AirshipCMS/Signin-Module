@@ -18,7 +18,7 @@ export class ConfirmAccountComponent implements OnInit {
       if (err) { return console.error(err); }
       localStorage.setItem('profile', JSON.stringify(profile));
       if(profile.email_verified) {
-        this.router.navigate(['/signin']);
+        this.router.navigate(['/']);
       }
     });
   }

@@ -6,8 +6,8 @@ import { LoginComponent } from './login';
 import { CanActivateViaAuthGuard } from './auth';
 
 const AppRoutes : Routes = [
-  { path: 'signin', component: LoginComponent },
-  { path: 'signin/confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] }
+  { path: '', component: LoginComponent },
+  { path: 'confirm-account', component: ConfirmAccountComponent, canActivate: [CanActivateViaAuthGuard] }
 ];
 
 export const appRoutingProviders : any[] = [];

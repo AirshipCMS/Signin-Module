@@ -18,20 +18,35 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAccessToken();
-    if (this.auth.authenticated() && this.auth.getProfile().email_verified) {
-      this.getUser();
-    } else {
+    let profile = JSON.parse(window.localStorage.getItem('profile'));
+    this.handleAuthentication();
+    if (!this.auth.authenticated()) {
       this.auth.status.subscribe(status => {
-        status ? this.verified = this.auth.getProfile().email_verified : null;
-        this.verified = this.auth.getProfile() ? this.auth.getProfile().email_verified : false;
-        if (!this.verified) {
-          this.router.navigate(['/confirm-account']);
-        }
-        else if ((this.auth.user === null || this.auth.user === undefined) && this.verified) {
-          this.getUser();
+        if (status) {
+          if (status && (profile === null || profile.email_verified === null)) {
+            profile = JSON.parse(window.localStorage.getItem('profile'));
+          }
+          status ? (this.verified = profile.email_verified) : null;
+          if (profile.email_verified) {
+            this.getUser();
+          } else {
+            this.router.navigate(['/confirm-account']);
+          }
         }
       });
+    } else {
+      this.auth.getProfile((err, res) => {
+        profile = res;
+      });
+      if (profile.email_verified) {
+        this.getUser();
+      }
+    }
+  }
+
+  handleAuthentication() {
+    if (window.location.hash.includes('token')) {
+      return this.auth.handleAuthentication();
     }
   }
 
@@ -48,7 +63,7 @@ export class LoginComponent implements OnInit {
   getUser() {
     this.auth.getAirshipUser()
       .then(user => {
-        if (user.error && (user.error.status === 403 || user.error.status === 401)){
+        if (user.error && (user.error.status === 403 || user.error.status === 401)) {
           this.noAccess = true;
           this.loading = false;
         } else {
@@ -64,26 +79,6 @@ export class LoginComponent implements OnInit {
       }).catch(err => {
         console.error(err);
       });
-  }
-
-  getAccessToken() {
-    let code = location.search.split('code=')[1];
-    if (code !== undefined) {
-      if (code.includes('state')) {
-        code = code.split('&state')[0];
-      }
-      localStorage.setItem('code', code);
-      this.auth.getAccessToken(code)
-        .then(res => {
-          localStorage.setItem('id_token', res.id_token);
-          localStorage.setItem('access_token', res.access_token);
-          this.auth.lock._events.authenticated();
-          window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
-        }).catch(err => {
-          console.log(err);
-          window.history.pushState("", "", "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]);
-        });
-    }
   }
 
 }

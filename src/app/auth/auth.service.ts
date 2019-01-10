@@ -6,30 +6,26 @@ import { RequestOptions, Http, Headers } from '@angular/http';
 
 import { environment } from '../../environments/environment';
 
-import Auth0Lock from 'auth0-lock';
+// import Auth0Lock from 'auth0-lock';
 import { tokenNotExpired } from 'angular2-jwt';
+import * as auth0 from 'auth0-js';
+
 
 @Injectable()
 export class AuthService {
-  status;
+  status: Observable<boolean>;
   user;
   id_token : string = localStorage.getItem('id_token');
   access_token : string = localStorage.getItem('access_token');
   private observer: Observer<boolean>;
   private options = {
-    closable: true,
-    initialScreen: 'login',
-    allowedConnections: ['Username-Password-Authentication'],
-    auth: {
-      redirectUrl: environment.auth0RedurectUri,
-      responseType: 'code'
-    },
-    theme: {
-      primaryColor: '#7C8390',
-      logo: 'https://res.cloudinary.com/airship/image/upload/v1492152050/auth0.png'
-    }
+    clientID: environment.auth0ClientID,
+    domain: environment.auth0Domain,
+    responseType: 'token id_token',
+    redirectUri: environment.auth0RedurectUri,
+    scope: 'openid profile email',
   };
-  lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
+  auth0Login = new auth0.WebAuth(this.options);
 
   constructor(private http: Http) {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -37,18 +33,6 @@ export class AuthService {
     this.status = new Observable(observer =>
       this.observer = observer
     ).share();
-
-    this.lock.on('authenticated', (authResult) => {
-      this.lock.getProfile(localStorage.getItem('access_token'), (error, profile) => {
-        if (error) {
-          console.error('no user profile');
-        }
-        localStorage.setItem('profile', JSON.stringify(profile));
-        this.id_token = localStorage.getItem('id_token');
-        this.changeState(true);
-        return;
-      });
-    });
   }
 
   changeState(newState: boolean) {
@@ -58,15 +42,15 @@ export class AuthService {
   }
 
   public login() {
-    this.options.initialScreen = 'login';
-    this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
-    this.lock.show();
+    this.changeState(false);
+    localStorage.clear();
+    this.auth0Login.authorize();
   };
 
   public signUp() {
-    this.options.initialScreen = 'signUp';
-    this.lock = new Auth0Lock(environment.auth0ClientID, environment.auth0Domain, this.options);
-    this.lock.show();
+    this.changeState(false);
+    localStorage.clear();
+    this.auth0Login.authorize({ mode: 'signUp' });
   }
 
   public authenticated() {
@@ -80,8 +64,63 @@ export class AuthService {
     localStorage.clear();
   };
 
-  public getProfile() {
-    return JSON.parse(localStorage.getItem('profile'));
+  handleAuthentication() {
+    return this.auth0Login.parseHash((err, authResult) => {
+      if (err) {
+        console.error(err);
+        window.history.pushState(
+          '',
+          '',
+          '/' +
+            window.location.href
+              .substring(window.location.href.lastIndexOf('/') + 1)
+              .split('#')[0]
+        );
+        return err;
+      }
+
+      window.location.hash = '';
+      window.history.pushState(
+        '',
+        '',
+        '/' +
+          window.location.href
+            .substring(window.location.href.lastIndexOf('/') + 1)
+            .split('#')[0]
+      );
+      this.setSession(authResult);
+      this.getProfile(null);
+      return authResult;
+    });
+  }
+
+  private setSession(authResult): void {
+    // Set the time that the Access Token will expire at
+    const expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime()
+    );
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    this.id_token = authResult.idToken;
+    localStorage.setItem('expires_at', expiresAt);
+  }
+
+  public getProfile(callback) {
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    if (profile) {
+      return profile;
+    }
+    return this.auth0Login.client.userInfo(
+      localStorage.getItem('access_token'),
+      (err, profile) => {
+        if (err) {
+          console.error('no user profile');
+        }
+        localStorage.setItem('profile', JSON.stringify(profile));
+        this.changeState(true);
+        return callback ? callback(err, profile) : null;
+      }
+    );
   }
 
   getAirshipUser() {
@@ -90,24 +129,6 @@ export class AuthService {
     });
     let options = new RequestOptions({ headers });
     return this.http.get(`${environment.domain}/api/account/profile`, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
-  }
-
-  getAccessToken(code: string) {
-    let headers = new Headers({
-      'Content-type': 'application/json'
-    });
-    let options = new RequestOptions({ headers });
-    let body = {
-      'client_id': environment.auth0ClientID,
-      'redirect_uri': `${environment.domain}/api/auth0/`,
-      'client_secret': environment.auth0Secret,
-      'grant_type': 'authorization_code',
-      code
-    }
-    return this.http.post(`https://${environment.auth0Domain}/oauth/token`, body, options)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);

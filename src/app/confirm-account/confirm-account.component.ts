@@ -12,15 +12,35 @@ export class ConfirmAccountComponent implements OnInit {
   confirmationEmailSent : boolean;
 
   constructor(private auth: AuthService, private router: Router) { }
-
+  
   ngOnInit() {
-    this.auth.lock.getProfile(localStorage.getItem('access_token'), (err, profile) => {
-      if (err) { return console.error(err); }
-      localStorage.setItem('profile', JSON.stringify(profile));
-      if(profile.email_verified) {
+    let profile = JSON.parse(window.localStorage.getItem('profile'));
+    this.handleAuthentication();
+    if (!this.auth.authenticated()) {
+      this.auth.status.subscribe(status => {
+        if (status) {
+          if (status && (profile === null || profile.email_verified === null)) {
+            profile = JSON.parse(window.localStorage.getItem('profile'));
+          }
+          if (profile.email_verified) {
+            this.router.navigate(['/']);
+          }
+        }
+      });
+    } else {
+      this.auth.getProfile((err, res) => {
+        profile = res;
+      });
+      if (profile.email_verified) {
         this.router.navigate(['/']);
       }
-    });
+    }
+  }
+
+  handleAuthentication() {
+    if (window.location.hash.includes('token')) {
+      return this.auth.handleAuthentication();
+    }
   }
 
   resendConfirmation() {

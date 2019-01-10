@@ -2,8 +2,8 @@
   <div>
     <h1>Confirm Your Account</h1>
     <div class="login confirm-account">
-      <p>Please check your email to confirm your account</p>
-      <button class="button" routerLink="/login">Continue</button>
+      <p>Please check your email to confirm your account.</p>
+      <button class="button" (click)="refresh()">Refresh</button>
       <p *ngIf="!confirmationEmailSent">Didn't get an email? <a (click)="resendConfirmation()">Resend the Confirmation</a></p>
       <p *ngIf="confirmationEmailSent">Confirmation sent</p>
     </div>

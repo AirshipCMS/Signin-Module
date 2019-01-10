@@ -34,4 +34,8 @@ export class ConfirmAccountComponent implements OnInit {
       }).catch(err => console.error(err));
   }
 
+  refresh() {
+    window.location.reload();
+  }
+
 }

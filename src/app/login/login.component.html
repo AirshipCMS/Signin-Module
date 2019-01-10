@@ -10,7 +10,10 @@
     <div *ngIf="!this.noAccess">
       <h1>Welcome</h1>
       <p>You are logged in as {{ auth.user?.auth0_user?.email }}</p>
-      <a class="button" href="/checkout">Continue to Checkout</a>
+      <p>
+        <a class="link cart-link" href="/cart">Cart</a>
+        <a class="link checkout-link" href="/checkout">Checkout</a>
+      </p>
     </div>
     <div class="noaccess" *ngIf="this.noAccess">
       <h1>No Access</h1>

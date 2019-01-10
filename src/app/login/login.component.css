@@ -7,3 +7,12 @@
 	font-weight: normal;
 	margin: 0;
 }
+
+a.link {
+	color: #6697E2;
+	text-decoration: none;
+}
+
+a.cart-link {
+	margin: 0 10px;
+}

@@ -51,7 +51,7 @@ ng build --prod --env=prod
 ```
 This will compile the app into `dist/`
 Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
-Copy `dist/index.html` into the appropriate template file of the airship project.
+Copy `dist/index.html` into the appropriate template file (such as `signin.html`) for the airship project.
 
 ```
 <base href="/">
@@ -62,4 +62,8 @@ Copy `dist/index.html` into the appropriate template file of the airship project
 <script src="/assets/scripts/signin/main.js"></script>
 ```
 
-this SPA loads on `/signin`
+# Admin Setup
+- create page with permalink `signin` so that this SPA loads on `/signin`. 
+- set a SPA route in the admin settings to:
+```/signin/.*` --> `/signin```
+- If a different permalink is used, adjust page permalink and SPA route accordingly.

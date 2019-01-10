@@ -11,6 +11,7 @@ import { AuthService } from '../auth';
 export class LoginComponent implements OnInit {
   verified: boolean;
   noAccess: boolean;
+  loading: boolean = true;
 
   constructor(public auth: AuthService, private router: Router) {
     this.auth.user = JSON.parse(localStorage.getItem('user'));
@@ -47,12 +48,13 @@ export class LoginComponent implements OnInit {
   getUser() {
     this.auth.getAirshipUser()
       .then(user => {
-        console.log(user.error.status)
-        if (user.error.status === 403 || user.error.status === 401) {
+        if (user.error && (user.error.status === 403 || user.error.status === 401)){
           this.noAccess = true;
+          this.loading = false;
         } else {
           localStorage.setItem('user', JSON.stringify(user));
           this.auth.user = user;
+          this.loading = false;
           this.auth.getAccount()
             .subscribe(
               account => localStorage.setItem('account', JSON.stringify(account)),

@@ -6,7 +6,7 @@
       <p>Don't have a Login? <a (click)="signUp()">Create an Account</a></p>
     </div>
   </div>
-  <div *ngIf="this.auth.authenticated()" class="login">
+  <div *ngIf="this.auth.authenticated() && !this.loading" class="login">
     <div *ngIf="!this.noAccess">
       <h1>Welcome</h1>
       <p>You are logged in as {{ auth.user?.auth0_user?.email }}</p>

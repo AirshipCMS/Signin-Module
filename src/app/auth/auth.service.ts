@@ -44,6 +44,7 @@ export class AuthService {
           console.error('no user profile');
         }
         localStorage.setItem('profile', JSON.stringify(profile));
+        this.id_token = localStorage.getItem('id_token');
         this.changeState(true);
         return;
       });

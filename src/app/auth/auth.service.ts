@@ -107,7 +107,7 @@ export class AuthService {
 
   public getProfile(callback) {
     const profile = JSON.parse(localStorage.getItem('profile'));
-    if (profile) {
+    if (profile && profile.email_verified) {
       return profile;
     }
     return this.auth0Login.client.userInfo(

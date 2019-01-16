@@ -46,6 +46,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  logout() {
+    this.auth.logout();
+  }
+
   handleAuthentication() {
     if (window.location.hash.includes('token')) {
       return this.auth.handleAuthentication();

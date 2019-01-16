@@ -16,3 +16,9 @@ a.link {
 a.cart-link {
 	margin: 0 10px;
 }
+
+.logout-button {
+  background: unset;
+  color: #FC6C96;
+  cursor: pointer;
+}

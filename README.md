@@ -67,3 +67,7 @@ Copy `dist/index.html` into the appropriate template file (such as `signin.html`
 - set a SPA route in the admin settings to:
 ```/signin/.*` --> `/signin```
 - If a different permalink is used, adjust page permalink and SPA route accordingly.
+
+# Auth0
+- in order for auth0 to redirect back to `/signin`, set a  redirect url to the absolute URL of your signin page, for example `https://yoursite.airshipcms-alpha.io/signin` or `https://yoursite.com/signin`. 
+- in order for auth0 to redirect back to `/signin` with a hosted login module, an AirshipCMS Core Developer will need to add the Auth0 Allowed Callback URL to our Auth0 Account Settings, for example `https://yoursite.airshipcms-alpha.io/signin` or `https://yoursite.com/signin`. 

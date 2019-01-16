@@ -40,6 +40,8 @@ export class LoginComponent implements OnInit {
       });
       if (profile.email_verified) {
         this.getUser();
+      } else {
+        this.router.navigate(['/confirm-account']);
       }
     }
   }

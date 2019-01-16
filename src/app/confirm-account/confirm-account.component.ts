@@ -37,6 +37,14 @@ export class ConfirmAccountComponent implements OnInit {
     }
   }
 
+  logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile');
+    this.router.navigate(['/']);
+  }
+
   handleAuthentication() {
     if (window.location.hash.includes('token')) {
       return this.auth.handleAuthentication();

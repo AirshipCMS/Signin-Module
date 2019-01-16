@@ -6,6 +6,7 @@
       <button class="button" (click)="refresh()">Refresh</button>
       <p *ngIf="!confirmationEmailSent">Didn't get an email? <a (click)="resendConfirmation()">Resend the Confirmation</a></p>
       <p *ngIf="confirmationEmailSent">Confirmation sent</p>
+      <a class="logout-button" (click)="logout()">Logout</a>
     </div>
   </div>
 </div>

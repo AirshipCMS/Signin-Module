@@ -6,7 +6,6 @@ import { RequestOptions, Http, Headers } from '@angular/http';
 
 import { environment } from '../../environments/environment';
 
-// import Auth0Lock from 'auth0-lock';
 import { tokenNotExpired } from 'angular2-jwt';
 import * as auth0 from 'auth0-js';
 
@@ -15,8 +14,8 @@ import * as auth0 from 'auth0-js';
 export class AuthService {
   status: Observable<boolean>;
   user;
-  id_token : string = localStorage.getItem('id_token');
-  access_token : string = localStorage.getItem('access_token');
+  id_token: string = localStorage.getItem('id_token');
+  access_token: string = localStorage.getItem('access_token');
   private observer: Observer<boolean>;
   private options = {
     clientID: environment.auth0ClientID,
@@ -72,9 +71,9 @@ export class AuthService {
           '',
           '',
           '/' +
-            window.location.href
-              .substring(window.location.href.lastIndexOf('/') + 1)
-              .split('#')[0]
+          window.location.href
+            .substring(window.location.href.lastIndexOf('/') + 1)
+            .split('#')[0]
         );
         return err;
       }
@@ -84,9 +83,9 @@ export class AuthService {
         '',
         '',
         '/' +
-          window.location.href
-            .substring(window.location.href.lastIndexOf('/') + 1)
-            .split('#')[0]
+        window.location.href
+          .substring(window.location.href.lastIndexOf('/') + 1)
+          .split('#')[0]
       );
       this.setSession(authResult);
       this.getProfile(null);
@@ -169,7 +168,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     let options = new RequestOptions({ headers });
-    let body = { 
+    let body = {
       user_id: JSON.parse(localStorage.getItem('profile')).user_id,
 
     };
@@ -183,6 +182,25 @@ export class AuthService {
 
   handleError(error: Response) {
     return Observable.throw(error);
+  }
+
+  requestChangePassword(token, email) {
+    let headers = new Headers({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({ headers });
+    let body = {
+      client_id: environment.auth0ClientID,
+      email,
+      connection: 'Username-Password-Authentication'
+    }
+    let url = `https://${environment.auth0Domain}/dbconnections/change_password`;
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json())
+      .catch(this.handleError);
   }
 
 }

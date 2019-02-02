@@ -9,8 +9,5 @@ export const environment = {
   // Auth0
   auth0Domain: '',
   auth0ClientID: '',
-  auth0Secret: '',
   auth0RedurectUri: '',
-  auth0ApiClientID: '',
-  auth0ApiSecret: ''
 };

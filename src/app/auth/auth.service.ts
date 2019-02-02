@@ -143,38 +143,13 @@ export class AuthService {
       .catch(this.handleError);
   }
 
-  getToken() {
-    let headers = new Headers({
-      'Content-Type': 'application/json'
-    });
-    let options = new RequestOptions({ headers });
-    let url = `https://${environment.auth0Domain}/oauth/token`;
-    let body = {
-      'grant_type': 'client_credentials',
-      'client_id': environment.auth0ApiClientID,
-      'client_secret': environment.auth0ApiSecret,
-      'audience': `https://${environment.auth0Domain}/api/v2/`
-    };
-
-    return this.http.post(url, body, options)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
-  }
-
-  public resendVerification(token) {
-    let headers = new Headers({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    let options = new RequestOptions({ headers });
+  public resendVerification() {
     let body = {
       user_id: JSON.parse(localStorage.getItem('profile')).user_id,
-
     };
-    let url = `https://${environment.auth0Domain}/api/v2/jobs/verification-email`;
+    let url = `${environment.domain}/api/auth0/resend-verification`;
 
-    return this.http.post(url, body, options)
+    return this.http.post(url, body)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
@@ -184,20 +159,13 @@ export class AuthService {
     return Observable.throw(error);
   }
 
-  requestChangePassword(token, email) {
-    let headers = new Headers({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    let options = new RequestOptions({ headers });
+  requestChangePassword(email) {
     let body = {
-      client_id: environment.auth0ClientID,
-      email,
-      connection: 'Username-Password-Authentication'
+      email
     }
-    let url = `https://${environment.auth0Domain}/dbconnections/change_password`;
+    let url = `${environment.domain}/api/auth0/password-reset`;
 
-    return this.http.post(url, body, options)
+    return this.http.post(url, body)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);

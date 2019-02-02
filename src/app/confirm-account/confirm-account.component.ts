@@ -9,10 +9,10 @@ import { AuthService } from '../auth';
   styleUrls: ['../app.component.css', './confirm-account.component.css']
 })
 export class ConfirmAccountComponent implements OnInit {
-  confirmationEmailSent : boolean;
+  confirmationEmailSent: boolean;
 
   constructor(private auth: AuthService, private router: Router) { }
-  
+
   ngOnInit() {
     let profile = JSON.parse(window.localStorage.getItem('profile'));
     this.handleAuthentication();
@@ -24,6 +24,8 @@ export class ConfirmAccountComponent implements OnInit {
           }
           if (profile.email_verified) {
             this.router.navigate(['/']);
+          } else {
+            this.getUser();
           }
         }
       });
@@ -33,8 +35,25 @@ export class ConfirmAccountComponent implements OnInit {
       });
       if (profile.email_verified) {
         this.router.navigate(['/']);
+      } else {
+        this.getUser();
       }
     }
+  }
+
+  getUser() {
+    this.auth.getAirshipUser()
+      .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.auth.user = user;
+        this.auth.getAccount()
+          .subscribe(
+            account => localStorage.setItem('account', JSON.stringify(account)),
+            error => console.error(error)
+          );
+      }).catch(err => {
+        console.error(err);
+      });
   }
 
   logout() {
@@ -49,13 +68,10 @@ export class ConfirmAccountComponent implements OnInit {
   }
 
   resendConfirmation() {
-    this.auth.getToken()
+    this.auth.resendVerification()
       .then(res => {
-        this.auth.resendVerification(res.access_token)
-          .then(res => {
-            this.confirmationEmailSent = true;
-            setTimeout(() =>this.confirmationEmailSent = false, 3000);
-          }).catch(err => console.error(err));
+        this.confirmationEmailSent = true;
+        setTimeout(() => this.confirmationEmailSent = false, 3000);
       }).catch(err => console.error(err));
   }
 

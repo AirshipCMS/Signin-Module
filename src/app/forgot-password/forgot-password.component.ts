@@ -25,20 +25,15 @@ export class ForgotPasswordComponent implements OnInit {
   resetPassword() {
     this.processing = true;
     this.error = false;
-    this.auth.getToken()
+    this.auth.requestChangePassword(this.email)
       .then(res => {
-        this.auth.requestChangePassword(res.access_token, this.email)
-          .then(res => {
-            this.processing = false;
-            this.requested = true;
-          }).catch(err => {
-            this.processing = false;
-            this.error = true;
-          })
+        this.processing = false;
+        this.requested = true;
       }).catch(err => {
         this.processing = false;
         this.error = true;
-      });
+      })
+      
   }
 
 

@@ -42,13 +42,11 @@ export class AuthService {
 
   public login() {
     this.changeState(false);
-    localStorage.clear();
     this.auth0Login.authorize();
   };
 
   public signUp() {
     this.changeState(false);
-    localStorage.clear();
     this.auth0Login.authorize({ mode: 'signUp' });
   }
 

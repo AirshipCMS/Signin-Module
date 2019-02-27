@@ -46,6 +46,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  clearLocalStorage() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('account');
+    localStorage.removeItem('expires_at');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+    localStorage.removeItem('user');
+  }
+
   logout() {
     this.auth.logout();
   }
@@ -57,12 +66,12 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    localStorage.clear();
+    this.clearLocalStorage();
     this.auth.login();
   }
 
   signUp() {
-    localStorage.clear();
+    this.clearLocalStorage();
     this.auth.signUp();
   }
 

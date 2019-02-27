@@ -41,16 +41,16 @@ npm run prod
 for alpha & beta:
 
 ```
-ng build --prod --env=alpha
+npm run build-alpha
 ```
 
 for production:
 
 ```
-ng build --prod --env=prod
+npm build
 ```
 This will compile the app into `dist/`
-Copy all the necessary scripts from `dist/` into the `compartments/assets/scripts/` directory of the airship project.
+Copy from `dist/airship-signin.min.js` into the `compartments/assets/scripts/` directory of the airship project.
 Copy `dist/index.html` into the appropriate template file (such as `signin.html`) for the airship project.
 
 ```

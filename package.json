@@ -5,13 +5,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --env=prod --output-hashing none && node concat",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "alpha": "ng serve --proxy-config proxy.conf.alpha.json --env=alpha",
     "beta": "ng serve --proxy-config proxy.conf.beta.json --env=beta",
-    "prod": "ng serve --proxy-config proxy.conf.prod.json --env=prod"
+    "prod": "ng serve --proxy-config proxy.conf.prod.json --env=prod",
+    "build-alpha": "ng build --env=alpha --prod --output-hashing none && node concat"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,7 @@
     "angular2-jwt": "^0.2.3",
     "auth0-js": "^8.10.1",
     "auth0-lock": "^11.12.1",
+    "concat-files": "^0.1.1",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"

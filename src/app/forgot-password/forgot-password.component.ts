@@ -13,7 +13,7 @@ export class ForgotPasswordComponent implements OnInit {
   form: FormGroup;
   @Input() email:string = '';
   private processing:boolean;
-  private requested:boolean;
+  public requested:boolean;
   private error:boolean;
 
   constructor(public auth: AuthService, private router: Router, private builder: FormBuilder) {

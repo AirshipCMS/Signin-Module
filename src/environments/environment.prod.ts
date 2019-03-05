@@ -9,6 +9,5 @@ export const environment = {
   // Auth0
   auth0Domain: 'airshipcms.auth0.com',
   auth0ClientID: 'fhiKNb4dwN0W542W9Rv06jdr4xmqDHwm',
-  auth0RedurectUri: 'https://endtoend.airshipcms.io/api/auth0/',
-  auth0ApiClientID: 'VQfbQ70BeHjf58w2m8Hu2I0gjZOETk7w',
+  auth0RedurectUri: 'https://endtoend.airshipcms.io/signin'
 };

@@ -43,3 +43,4 @@ yarn-error.log
 Thumbs.db
 /src/environments/environment.alpha.ts
 /src/environments/environment.prod.ts
+proxy.conf.prod.json

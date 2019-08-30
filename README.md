@@ -54,12 +54,9 @@ Copy from `dist/airship-signin.min.js` into the `compartments/assets/scripts/` d
 Copy `dist/index.html` into the appropriate template file (such as `signin.html`) for the airship project.
 
 ```
-<base href="/">
+<base href="/signin">
 <app-root></app-root>
-<script src="/assets/scripts/signin/inline.js"></script>
-<script src="/assets/scripts/signin/polyfills.js"></script>
-<script src="/assets/scripts/signin/vendor.js"></script>
-<script src="/assets/scripts/signin/main.js"></script>
+<script src="/assets/scripts/airship-signin.min.js></script>
 ```
 
 # Admin Setup

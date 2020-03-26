@@ -20,7 +20,7 @@ export class AuthService {
   private options = {
     clientID: environment.auth0ClientID,
     domain: environment.auth0Domain,
-    responseType: 'token id_token',
+    responseType: 'id_token',
     redirectUri: environment.auth0RedurectUri,
     scope: 'openid profile email',
   };
@@ -41,11 +41,13 @@ export class AuthService {
   }
 
   public login() {
+    localStorage.clear();
     this.changeState(false);
     this.auth0Login.authorize();
   };
 
   public signUp() {
+    localStorage.clear();
     this.changeState(false);
     this.auth0Login.authorize({ mode: 'signUp' });
   }

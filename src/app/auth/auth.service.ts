@@ -20,7 +20,7 @@ export class AuthService {
   private options = {
     clientID: environment.auth0ClientID,
     domain: environment.auth0Domain,
-    responseType: 'id_token',
+    responseType: 'token id_token',
     redirectUri: environment.auth0RedurectUri,
     scope: 'openid profile email',
   };
@@ -66,7 +66,6 @@ export class AuthService {
   handleAuthentication() {
     return this.auth0Login.parseHash((err, authResult) => {
       if (err) {
-        console.error(err);
         window.history.pushState(
           '',
           '',

@@ -40,14 +40,22 @@ export class AuthService {
     }
   }
 
+  clearStorage() {
+    localStorage.removeItem('user')
+    localStorage.removeItem('profile')
+    localStorage.removeItem('account')
+    localStorage.removeItem('id_token')
+    localStorage.removeItem('access_token')
+  }
+
   public login() {
-    localStorage.clear();
+    this.clearStorage()
     this.changeState(false);
     this.auth0Login.authorize();
   };
 
   public signUp() {
-    localStorage.clear();
+    this.clearStorage()
     this.changeState(false);
     this.auth0Login.authorize({ mode: 'signUp' });
   }
@@ -60,7 +68,7 @@ export class AuthService {
 
   public logout() {
     // Remove token from localStorage
-    localStorage.clear();
+    this.clearStorage()
   };
 
   handleAuthentication() {

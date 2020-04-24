@@ -1,6 +1,6 @@
 # Sign In-Module
 
-If you are using [Guest Checkout](https://github.com/AirshipCMS/Checkout-Module/tree/guest-checkout), please see the [guest-checkout branch](https://github.com/AirshipCMS/Signin-Module/tree/guest-checkout) instead.
+If you are not using [Guest Checkout](https://github.com/AirshipCMS/Checkout-Module/tree/guest-checkout), please see the [masterbranch](https://github.com/AirshipCMS/Signin-Module) instead.
 
 ## Development
 

@@ -5,6 +5,7 @@
       <button class="login-button" type="button" (click)="this.auth.login()">Login</button>
       <p>Don't have a Login? <a (click)="signUp()">Create an Account</a></p>
       <p><a (click)="resetPassword()">Forgot password?</a></p>
+      <p><a href="/guest-checkout">Continue as Guest</a></p>
     </div>
   </div>
   <div *ngIf="this.auth.authenticated() && !this.loading" class="login">
